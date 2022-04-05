@@ -1,47 +1,42 @@
 def solution(s):
+
     print('\n', s)
 
+    # max size of string
     HALLWAY_SIZE = len(s)
 
-    right_commands = []
-    left_commands = []
+    # convert walks to right or left in two different lists
+    right_walkers = []
+    left_walkers = []
     for i in range(0, HALLWAY_SIZE):
         if s[i] == '>':
-            right_commands.append(s[i])
-            left_commands.append(' ')
+            right_walkers.append(1)
+            left_walkers.append(0)
         elif s[i] == '<':
-            left_commands.append(s[i])
-            right_commands.append(' ')
+            left_walkers.append(1)
+            right_walkers.append(0)
         else:
-            right_commands.append(' ')
-            left_commands.append(' ')
+            right_walkers.append(0)
+            left_walkers.append(0)
 
-    print(f'right_commands: {right_commands}')
-    print(f'left_commands: {left_commands}')
+    print(f'right_walkers: {right_walkers}')
+    print(f'left_walkers: {left_walkers}')
 
-    # encounters from left to right
-    contagem_esbarroes_direita = 0
+    # sum the amount of 'encounters' that right-walking minions will have
+    amount_encounters_left2right = 0
     for i in range(0, HALLWAY_SIZE):
-        if right_commands[i] == '>':
-            for j in range(i, HALLWAY_SIZE):
-                if left_commands[j] == '<':
-                    contagem_esbarroes_direita += 1            
-    print(f'Contagem esbarroes direita: {contagem_esbarroes_direita}')
-                
+        if right_walkers[i] == 1:
+            amount_encounters_left2right += sum(left_walkers[i:HALLWAY_SIZE]) 
+    print(f'Contagem esbarroes direita: {amount_encounters_left2right}')
 
-    # encounters from right to left
-    contagem_esbarroes_esquerda = 0
+    # sum the amount of 'encounters' that left-walking minions will have
+    amount_encounters_right2left = 0
     for i in reversed(range(0, HALLWAY_SIZE)):
-        # print('i', i)
-        if left_commands[i] == '<':
-            # print(left_commands[i])
-            for j in reversed(range(0, i)):
-                if right_commands[j] == '>':
-                    # print(right_commands[j])
-                    contagem_esbarroes_esquerda += 1            
-    print(f'Contagem esbarroes esquerda: {contagem_esbarroes_esquerda}')
+        if left_walkers[i] == 1:
+            amount_encounters_right2left += sum(right_walkers[0:i]) 
+    print(f'Contagem esbarroes esquerda: {amount_encounters_right2left}')
 
-    return contagem_esbarroes_direita + contagem_esbarroes_esquerda
+    return amount_encounters_left2right + amount_encounters_right2left
                 
 
 assert solution('>----<') == 2
