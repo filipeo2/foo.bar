@@ -19,7 +19,10 @@ def solution(l):
 def solution2(l):
     from itertools import product
 
-    print('\n', l)
+    # print('\n', l)
+    
+    if len(set(l)) == 1:
+        return 1
     
     resultado = 0
     for i in range(0, len(l)):
@@ -31,7 +34,7 @@ def solution2(l):
             # print(list(product(mult_menor, mult_maior)))
             resultado += len(list(product(mult_menor, mult_maior)))
     
-    print(resultado)
+    # print(resultado)
     return resultado
     
 
